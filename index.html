@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu des 3 Tasses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #game-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .cup {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            margin: 10px;
+            border: 2px solid #333;
+            font-size: 24px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 80px;
+            background-color: #f0f0f0;
+        }
+        .ball {
+            background-color: green;
+            color: white;
+        }
+        .empty {
+            background-color: red;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Jeu des 3 Tasses</h1>
+    <div id="game-container">
+        <p>Cliquez sur une tasse pour voir si elle cache la boule !</p>
+        <div id="cups"></div>
+    </div>
+
+    <script>
+        const cupsContainer = document.getElementById('cups');
+        const numCups = 3;
+        let ballPosition = Math.floor(Math.random() * numCups);
+
+        function revealCup(index) {
+            const cup = document.getElementById(`cup-${index}`);
+            if (index === ballPosition) {
+                cup.textContent = '⚽';
+                cup.classList.add('ball');
+            } else {
+                cup.textContent = '❌';
+                cup.classList.add('empty');
+            }
+            for (let i = 0; i < numCups; i++) {
+                document.getElementById(`cup-${i}`).onclick = null;
+            }
+        }
+
+        function createCups() {
+            for (let i = 0; i < numCups; i++) {
+                let cup = document.createElement('div');
+                cup.className = 'cup';
+                cup.id = `cup-${i}`;
+                cup.onclick = () => revealCup(i);
+                cupsContainer.appendChild(cup);
+            }
+        }
+
+        createCups();
+    </script>
+</body>
+</html>
